@@ -1,5 +1,3 @@
-from time import sleep
-
 from test_data.test_data import RandomData, ValidLoginGredentials
 from tests.base_test import BaseTest
 

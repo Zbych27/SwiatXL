@@ -1,5 +1,8 @@
+
+
 from selenium.webdriver import Keys
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support import expected_conditions as EC
 from pages.base_page import BasePage
 from selenium.webdriver.common.by import By
 from pages.login_page import LoginPage
@@ -22,11 +25,13 @@ class HomePage(BasePage):
         # find login button
         el = self.driver.find_element(*Locators.LOGIN_LINK)
         el.click()
+        self.wait.until(EC.visibility_of_element_located(Locators.REGISTER_LINK))
         return LoginPage(self.driver)
 
     def go_to_registration(self):
         el = self.driver.find_element(*Locators.LOGIN_LINK)
         el.click()
+        self.wait.until(EC.element_to_be_clickable(Locators.REGISTER_LINK))
         reg = self.driver.find_element(*Locators.REGISTER_LINK)
         reg.click()
         return RegistrationPage(self.driver)
@@ -55,8 +60,11 @@ class HomePage(BasePage):
     def get_implementation(self):
         return self.driver.find_element(*Locators.SEARCH_IMPLEMENTATION)
 
+    def get_implementation_list(self):
+        return Select(self.get_implementation()).options
+
     def select_implementation_by_index(self, position):
-        Select(self.get_implemntation).select_by_index(position)
+        Select(self.get_implementation()).select_by_index(position)
 
 
 

@@ -1,7 +1,9 @@
 import random
+from pages.register_page import RegistrationLocators
 from test_data.test_data import RandomData
 from tests.base_test import BaseTest
 from utils.utils import Util
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class RegistrationTest(BaseTest):
@@ -9,6 +11,7 @@ class RegistrationTest(BaseTest):
     def setUp(self):
         super().setUp()
         self.registration_page = self.home_page.go_to_registration()
+        self.wait.until(EC.visibility_of_element_located(RegistrationLocators.NAME_INPUT))
         self.random_data = RandomData()
 
     def test_TS01TC01_register_with_valid_data(self):
@@ -25,7 +28,6 @@ class RegistrationTest(BaseTest):
         self.registration_page.enter_nip(self.random_data.Nip)
         self.registration_page.select_status(random.randrange(1, 4))
         self.registration_page.click_accept_terms()
-        self.registration_page.click_newsletters_agree()
         self.registration_page.click_submit_button()
         el = self.registration_page.get_success_registration_message()
         self.assertTrue("Dziękujemy za zgłoszenie chęci założenia konta" in el.text)
@@ -50,6 +52,7 @@ class RegistrationTest(BaseTest):
             self.registration_page.select_status(random.randrange(1, 4))
         if missing_element != 4:
             self.registration_page.click_accept_terms()
+
         self.registration_page.click_submit_button()
         mess = self.registration_page.get_alert_message()
         self.assertIsNotNone(mess)

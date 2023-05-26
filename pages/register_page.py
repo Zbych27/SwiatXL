@@ -1,5 +1,4 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support.ui import Select
 from pages.base_page import BasePage
 from selenium.common import NoSuchElementException
@@ -25,10 +24,10 @@ class RegistrationLocators:
     REGISTER_SUCCESS_MSG = (By.XPATH, "//div[@class='alert alert-block alert-dismissible alert-success messages status']")
     NAME = (By.XPATH, "//label[contains(text(),'Status użytkownika')]")
 
+
 class RegistrationPage(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
-        self.wait = WebDriverWait(self.driver, 15)
 
     def get_name_div(self):
         return self.driver.find_element(*RegistrationLocators.NAME)
@@ -79,7 +78,7 @@ class RegistrationPage(BasePage):
         return self.driver.find_element(*RegistrationLocators.NAME_INPUT)
 
     def enter_name(self, name):
-        self.get_name().sendkey(name)
+        self.get_name().send_keys(name)
 
     def get_email(self):
         return self.driver.find_element(*RegistrationLocators.EMAIL_INPUT)

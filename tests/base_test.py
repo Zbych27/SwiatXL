@@ -1,5 +1,7 @@
 import unittest
 from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
+
 from pages.home_page import HomePage
 import xml.etree.ElementTree as Xml
 
@@ -26,6 +28,7 @@ class BaseTest(unittest.TestCase):
         page_address = root.find("webside").text.lower()
         self.driver.get(page_address)
         self.home_page = HomePage(self.driver)
+        # self.wait = WebDriverWait(self.driver, 10)
 
     def tearDown(self):
         self.driver.quit()

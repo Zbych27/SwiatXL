@@ -1,11 +1,4 @@
 import random
-from struct import unpack
-from time import sleep
-
-import ddt as ddt
-from data.decorators import data
-from selenium.webdriver.common.by import By
-
 from pages.article_summary_page import ArticlesSummaryPage, NoneExistText
 from test_data.test_data import RandomData, get_data_from_csv
 from tests.base_test import BaseTest
@@ -53,7 +46,7 @@ class SearchTest(BaseTest):
         self.home_page.search_button_clic()
         found_articles = self.articles_summary_page.get_articles_list()
         if NoneExistText in found_articles[0].title:
-            print("brak atrukułów tej kategorii")
+            print("brak atrykułów tej kategorii")
             self.assertTrue(True)
         else:
             not_found = True
@@ -61,7 +54,25 @@ class SearchTest(BaseTest):
                 if category not in found_articles[j].tags:
                     found = False
                     break
-            self.assertTrue(not_found)
+                self.assertTrue(not_found)
 
+    def test_TS03TC04_search_with_implementation(self):
+        items = self.home_page.get_implementation_list()
+        selected_implementation = random.randrange(0, len(items))
+        implementation = items[selected_implementation].text
+        print("wybrany sposób implementacji: ", implementation)
+        self.home_page.select_implementation_by_index(selected_implementation)
+        self.home_page.search_button_clic()
+        found_articles = self.articles_summary_page.get_articles_list()
+        if NoneExistText in found_articles[0].title:
+            print("brak rozwiązań o tej implementacji")
+            self.assertTrue(True)
+        else:
+            not_found = True
+            for j in range(len(found_articles)):
+                if implementation not in found_articles[j].tags:
+                    found = False
+                    break
+            self.assertTrue(not_found)
 
 
